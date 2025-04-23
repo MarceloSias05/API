@@ -1,0 +1,2 @@
+export const sal = (req,res)=>res.send("Hola desde la API con export sal"); //  / --> es para entrar a la dirección inicial, e.g. localhost. (, ) segundo arg. es el controlador
+export const ping = (req,res)=>res.send("controllers ping!!!!!")

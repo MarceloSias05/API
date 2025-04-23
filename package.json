@@ -1,0 +1,17 @@
+{
+  "name": "api_web_clase",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "api_web_clase": "file:",
+    "express": "^5.1.0"
+  }
+}
