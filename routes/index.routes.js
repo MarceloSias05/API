@@ -8,4 +8,7 @@ router.get("/ping", ping);
 
 export default router;
 
-
+// Ejemplo de controlador en user.controllers.js
+export const getUsers = (req, res) => {
+    res.json({ message: "Lista de usuarios" });
+  };
