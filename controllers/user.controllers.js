@@ -12,6 +12,18 @@ export const getUsers = (req, res) => {
   });
 };
 
+
+export const postUsers = (req, res) => {
+  const { name, username, password } = req.body;
+  const query = "INSERT INTO users (name, username, password) VALUES (?, ?, ?)";
+  pool.query(query, [name, username, password], (error, results) => {
+    if (error) {
+      return res.status(500).json({ msg: error });
+    }
+    res.status(200).json({ msg: "Usuario insertado correctamente", id: results.insertId });
+  });
+};
+
 // Obtener un usuario por su ID
 export const getUser = (req, res) => {/*
   const { id } = req.params; // Obtén el ID desde los parámetros de la URL
@@ -110,3 +122,4 @@ export const login = (req, res) => {/*
     }
   });
 */};
+

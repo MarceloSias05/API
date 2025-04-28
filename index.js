@@ -6,9 +6,12 @@ import userRoutes from "./routes/users.routes.js";
 
 const app = express();
 
+// Middleware para parsear JSON
+app.use(express.json());
+
 //Rutas
-app.use(indexRoutes);
-app.use(userRoutes);
+app.use("/", indexRoutes);
+app.use("/users", userRoutes);
 
 
 /*app.get("/pagina", (req, res) => {
