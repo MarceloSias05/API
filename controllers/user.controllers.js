@@ -1,4 +1,5 @@
 import { pool } from "../db/db.js";
+import {getSalt, hashPassword} from "../utils/hash.js";
 
 // Obtener todos los usuarios
 export const getUsers = (req, res) => {
@@ -15,8 +16,11 @@ export const getUsers = (req, res) => {
 
 export const postUsers = (req, res) => {
   const { name, username, password } = req.body;
+  const salt = getSalt();
+  const hash = hashPassword(password, salt);
+  const hashedPassword = salt + hash;
   const query = "INSERT INTO users (name, username, password) VALUES (?, ?, ?)";
-  pool.query(query, [name, username, password], (error, results) => {
+  pool.query(query, [name, username, hashedPassword], (error, results) => {
     if (error) {
       return res.status(500).json({ msg: error });
     }
@@ -67,9 +71,10 @@ export const deleteUser = (req, res) => {
 // Login (verificación de usuario)
 export const login = (req, res) => {
   const { username, password } = req.body;
+  const hash = hashPassword(password, getSalt);
   pool.execute(
     "SELECT * FROM users WHERE username = ?",
-    [usernamewd],
+    [username],
     (error, results) => {
       if (error) {
         return res.status(500).json({ message: "Error al verificar el usuario", error });
@@ -81,7 +86,7 @@ export const login = (req, res) => {
       }
 
       // Compara la contraseña
-      if (results[0].password === password) {
+      if (hashPassword(password, results[0].salt) === results[0].password) {
         return res.status(200).json({ isLogin: true, msg: "Ok", user: results[0] });
       } else {
         return res.status(401).json({ isLogin: false, msg: "Credenciales incorrectas", user: {} });
