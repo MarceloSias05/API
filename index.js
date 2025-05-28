@@ -1,22 +1,22 @@
 import "dotenv/config"
 import express from "express";
+import cors from "cors"; 
 import indexRoutes from "./routes/index.routes.js";
 import userRoutes from "./routes/users.routes.js";
 
-
 const app = express();
 
-// Middleware para parsear JSON
+app.use(cors({
+  origin: "http://localhost:5173", 
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+  allowedHeaders: ['Content-Type', 'Authorization'] 
+}));
+
 app.use(express.json());
 
-//Rutas
 app.use("/", indexRoutes);
 app.use("/users", userRoutes);
-
-
-/*app.get("/pagina", (req, res) => {
-    res.redirect("http://localhost:3000/index.html"); //redirect se usa para un servidor que no es local, sino externo
-});*/
 
 const PORT = 3030;
 app.listen(PORT, console.log("Servidor corriendo en http://localhost:" + PORT));
